@@ -28,15 +28,13 @@ async function extractTenPages(startPage: number): Promise<number[] | false> {
     for (let i = 0; i < 10; i++) {
       promises.push(axios.get(`${api}${startPage + i}`));
     }
+    console.log(`Requesting pages: ${startPage} - ${startPage + 9}`);
     await Promise.all(promises).then(function (responses) {
       responses.forEach((res) => tenPages.push(...res.data.numbers));
     });
-    console.log(`Got pages from: ${startPage} to ${startPage + 9}`);
     return tenPages;
   } catch (e) {
-    console.log(
-      `ERROR getting pages from: ${startPage} to ${startPage + 9}, retrying...`
-    );
+    console.error(`Error requesting pages, retrying...`);
     return false;
   }
 }
