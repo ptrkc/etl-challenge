@@ -6,6 +6,10 @@ export async function extractNumbers() {
   const unsortedNumbers: number[] = [];
 
   while (!finished) {
+    if (page === 101) {
+      finished = true;
+      break;
+    }
     const tenPages = await extractTenPages(page);
     if (tenPages) {
       if (tenPages.length === 0) {
