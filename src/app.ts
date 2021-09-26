@@ -6,6 +6,7 @@ import cors from 'cors';
 import numbers from './routers/numberRouter';
 import client from './redisClient';
 import { extractNumbers } from './utils/extractNumbers';
+import { mergeSort } from './utils/mergeSort';
 
 const app = express();
 app.use(cors());
@@ -18,7 +19,8 @@ export async function init() {
   const cacheIsUp = await client.hExists('pages', 'done');
   if (cacheIsUp) return;
   const unsortedNumbers = await extractNumbers();
-  console.log(unsortedNumbers);
+  const sortedNumbers = mergeSort(unsortedNumbers);
+  console.log(sortedNumbers);
 }
 
 export default app;
