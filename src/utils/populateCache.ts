@@ -9,7 +9,7 @@ export async function populateCache(sortedArray: number[]) {
       await client.hSet(
         'pages',
         String(page),
-        JSON.stringify(sortedArray.slice(index, index + 99))
+        JSON.stringify(sortedArray.slice(index, index + 100))
       );
       page++;
       index += 100;
