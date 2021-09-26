@@ -1,6 +1,6 @@
-import redis from 'redis';
+import { createClient } from 'redis';
 
-const client = redis.createClient({ url: process.env.REDIS_URL });
+const client = createClient({ url: process.env.REDIS_URL });
 
 client.on('error', function (error) {
   console.error(error);
