@@ -1,4 +1,3 @@
-import fs from 'fs';
 import client from '../../src/redisClient';
 import { mergeSort } from '../../src/utils/mergeSort';
 

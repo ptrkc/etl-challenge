@@ -1,6 +1,6 @@
 import fs from 'fs';
 import supertest from 'supertest';
-import app, { init } from '../../src/app';
+import app from '../../src/app';
 import { pageFactory } from '../factories/pageFactory';
 import * as redis from '../utils/redis';
 
@@ -10,17 +10,20 @@ beforeAll(async () => {
   await redis.connect();
   await redis.clear();
   const sortedNumbers = await pageFactory(3);
-  fs.renameSync('./public/numbers.json', './public/numbers.bak');
+  if (fs.existsSync('./public/numbers.json')) {
+    fs.renameSync('./public/numbers.json', './public/numbers.bak');
+  }
   const data = JSON.stringify({ numbers: sortedNumbers });
   fs.writeFileSync('./public/numbers.json', data);
-  //await init();
 });
 
 afterAll(async () => {
-  //await redis.clear();
+  await redis.clear();
   await redis.quit();
   fs.unlinkSync('./public/numbers.json');
-  fs.renameSync('./public/numbers.bak', './public/numbers.json');
+  if (fs.existsSync('./public/numbers.bak')) {
+    fs.renameSync('./public/numbers.bak', './public/numbers.json');
+  }
 });
 
 describe('GET /numbers/:id', () => {
