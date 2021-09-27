@@ -8,6 +8,7 @@ import client from './redisClient';
 import { extractNumbers } from './utils/extractNumbers';
 import { mergeSort } from './utils/mergeSort';
 import { populateCache } from './utils/populateCache';
+import { saveNumbers } from './utils/saveNumbers';
 
 const app = express();
 app.use(cors());
@@ -22,7 +23,8 @@ export async function init() {
     if (cacheIsUp) return;
     const unsortedNumbers = await extractNumbers();
     const sortedNumbers = mergeSort(unsortedNumbers);
-    populateCache(sortedNumbers);
+    await populateCache(sortedNumbers);
+    saveNumbers(sortedNumbers);
   } catch (e) {
     console.error(e);
   }

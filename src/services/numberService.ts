@@ -5,5 +5,3 @@ export async function getByPage(id: number) {
   if (pageString === null) return [];
   return JSON.parse(pageString);
 }
-
-export async function getAll() {}

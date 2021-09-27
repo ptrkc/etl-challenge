@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
+import path from 'path';
 import * as numberService from '../services/numberService';
 
 export async function getByPage(req: Request, res: Response) {
   try {
     const id = parseInt(req.params.id);
-    if (!id) return res.sendStatus(400);
     const page = await numberService.getByPage(id);
     if (page) res.send({ numbers: page });
   } catch (e) {
@@ -15,8 +15,7 @@ export async function getByPage(req: Request, res: Response) {
 
 export async function getAll(req: Request, res: Response) {
   try {
-    const result = await numberService.getAll();
-    res.send(result);
+    res.download(path.join(__dirname, '../../public/numbers.json'));
   } catch (e) {
     console.log(e);
     res.sendStatus(500);
